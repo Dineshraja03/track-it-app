@@ -54,7 +54,7 @@ const TransactionsList = () => {
     <div className="p-4 pb-24 space-y-4 animate-fade-in">
       <Card className="shadow-sm">
         <CardHeader>
-          <CardTitle className="text-xl">Transactions</CardTitle>
+          <CardTitle className="text-xl text-gray-800 dark:text-white">Transactions</CardTitle>
           
           {/* Search Bar */}
           <div className="relative">
@@ -73,7 +73,11 @@ const TransactionsList = () => {
               variant={filter === 'all' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFilter('all')}
-              className={filter === 'all' ? 'bg-rupee-green hover:bg-emerald-700' : ''}
+              className={cn(
+                filter === 'all' 
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                  : 'text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
+              )}
             >
               All
             </Button>
@@ -81,7 +85,11 @@ const TransactionsList = () => {
               variant={filter === 'income' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFilter('income')}
-              className={filter === 'income' ? 'bg-rupee-green hover:bg-emerald-700' : ''}
+              className={cn(
+                filter === 'income' 
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                  : 'text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
+              )}
             >
               Income
             </Button>
@@ -89,7 +97,11 @@ const TransactionsList = () => {
               variant={filter === 'expense' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setFilter('expense')}
-              className={filter === 'expense' ? 'bg-rupee-green hover:bg-emerald-700' : ''}
+              className={cn(
+                filter === 'expense' 
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                  : 'text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
+              )}
             >
               Expense
             </Button>
@@ -98,7 +110,7 @@ const TransactionsList = () => {
 
         <CardContent className="p-0">
           {filteredTransactions.length === 0 ? (
-            <div className="p-8 text-center text-gray-500">
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
               <p className="text-lg mb-2">No transactions found</p>
               <p className="text-sm">Start by adding your first transaction!</p>
             </div>
@@ -107,7 +119,7 @@ const TransactionsList = () => {
               {filteredTransactions.map((transaction) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
                 >
                   <div className="flex items-center space-x-3 flex-1">
                     <div className="text-2xl">

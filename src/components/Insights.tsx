@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTransactions } from '@/hooks/useTransactions';
 import { getCategoryById } from '@/data/categories';
@@ -70,8 +69,8 @@ const Insights = () => {
   return (
     <div className="p-4 pb-24 space-y-6 animate-fade-in">
       <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-800">Insights 📊</h1>
-        <p className="text-gray-600 mt-1">Understand your spending patterns</p>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">Insights 📊</h1>
+        <p className="text-gray-600 dark:text-gray-300 mt-1">Understand your spending patterns</p>
       </div>
 
       {/* Summary Cards */}
@@ -79,16 +78,16 @@ const Insights = () => {
         <Card className="shadow-sm">
           <CardContent className="p-4 text-center">
             <div className="text-2xl mb-2">💰</div>
-            <p className="text-sm text-gray-600">Total Income</p>
-            <p className="text-lg font-bold text-rupee-green">{formatCurrency(totalIncome)}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Total Income</p>
+            <p className="text-lg font-bold text-green-600 dark:text-green-400">{formatCurrency(totalIncome)}</p>
           </CardContent>
         </Card>
 
         <Card className="shadow-sm">
           <CardContent className="p-4 text-center">
             <div className="text-2xl mb-2">💸</div>
-            <p className="text-sm text-gray-600">Total Expenses</p>
-            <p className="text-lg font-bold text-red-600">{formatCurrency(totalExpenses)}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Total Expenses</p>
+            <p className="text-lg font-bold text-red-600 dark:text-red-400">{formatCurrency(totalExpenses)}</p>
           </CardContent>
         </Card>
       </div>
@@ -97,7 +96,7 @@ const Insights = () => {
       {pieData.length > 0 && (
         <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle>Expense by Category</CardTitle>
+            <CardTitle className="text-gray-800 dark:text-white">Expense by Category</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64 mb-4">
@@ -132,9 +131,9 @@ const Insights = () => {
                       className="w-3 h-3 rounded-full" 
                       style={{ backgroundColor: item.color }}
                     />
-                    <span className="text-sm">{item.icon} {item.name}</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-300">{item.icon} {item.name}</span>
                   </div>
-                  <span className="text-sm font-medium">{formatCurrency(item.value)}</span>
+                  <span className="text-sm font-medium text-gray-800 dark:text-white">{formatCurrency(item.value)}</span>
                 </div>
               ))}
             </div>
@@ -146,7 +145,7 @@ const Insights = () => {
       {monthlyData.some(d => d.income > 0 || d.expense > 0) && (
         <Card className="shadow-sm">
           <CardHeader>
-            <CardTitle>Monthly Trends</CardTitle>
+            <CardTitle className="text-gray-800 dark:text-white">Monthly Trends</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-64">
@@ -173,8 +172,8 @@ const Insights = () => {
         <Card className="shadow-sm">
           <CardContent className="p-8 text-center">
             <div className="text-6xl mb-4">📊</div>
-            <h3 className="text-lg font-semibold mb-2">No Data Yet</h3>
-            <p className="text-gray-600">Add some transactions to see your insights!</p>
+            <h3 className="text-lg font-semibold mb-2 text-gray-800 dark:text-white">No Data Yet</h3>
+            <p className="text-gray-600 dark:text-gray-400">Add some transactions to see your insights!</p>
           </CardContent>
         </Card>
       )}
