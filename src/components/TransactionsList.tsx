@@ -12,6 +12,7 @@ import { Trash2, Search } from 'lucide-react';
 const TransactionsList = () => {
   const [filter, setFilter] = useState<'all' | 'income' | 'expense'>('all');
   const [searchTerm, setSearchTerm] = useState('');
+  const [deletingId, setDeletingId] = useState<string | null>(null);
   const { transactions, deleteTransaction } = useTransactions();
   const { toast } = useToast();
 
@@ -33,11 +34,15 @@ const TransactionsList = () => {
   };
 
   const handleDelete = (id: string) => {
-    deleteTransaction(id);
-    toast({
-      title: "Transaction Deleted",
-      description: "Transaction has been removed successfully",
-    });
+    setDeletingId(id);
+    setTimeout(() => {
+      deleteTransaction(id);
+      toast({
+        title: "Transaction Deleted",
+        description: "Transaction has been removed successfully",
+      });
+      setDeletingId(null);
+    }, 200);
   };
 
   const getCategoryIcon = (categoryId: string) => {
@@ -52,18 +57,18 @@ const TransactionsList = () => {
 
   return (
     <div className="p-4 pb-24 space-y-4 animate-fade-in">
-      <Card className="shadow-sm">
+      <Card className="shadow-sm hover:shadow-md transition-all duration-300">
         <CardHeader>
           <CardTitle className="text-xl text-gray-800 dark:text-white">Transactions</CardTitle>
           
           {/* Search Bar */}
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 transition-colors duration-300" size={16} />
             <Input
               placeholder="Search transactions..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
+              className="pl-10 transition-all duration-300 focus:scale-[1.02]"
             />
           </div>
 
@@ -74,6 +79,7 @@ const TransactionsList = () => {
               size="sm"
               onClick={() => setFilter('all')}
               className={cn(
+                "transition-all duration-300 hover:scale-105 active:scale-95",
                 filter === 'all' 
                   ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                   : 'text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -86,6 +92,7 @@ const TransactionsList = () => {
               size="sm"
               onClick={() => setFilter('income')}
               className={cn(
+                "transition-all duration-300 hover:scale-105 active:scale-95",
                 filter === 'income' 
                   ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                   : 'text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -98,6 +105,7 @@ const TransactionsList = () => {
               size="sm"
               onClick={() => setFilter('expense')}
               className={cn(
+                "transition-all duration-300 hover:scale-105 active:scale-95",
                 filter === 'expense' 
                   ? 'bg-blue-600 hover:bg-blue-700 text-white' 
                   : 'text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700'
@@ -110,19 +118,23 @@ const TransactionsList = () => {
 
         <CardContent className="p-0">
           {filteredTransactions.length === 0 ? (
-            <div className="p-8 text-center text-gray-500 dark:text-gray-400">
+            <div className="p-8 text-center text-gray-500 dark:text-gray-400 animate-fade-in">
               <p className="text-lg mb-2">No transactions found</p>
               <p className="text-sm">Start by adding your first transaction!</p>
             </div>
           ) : (
             <div className="space-y-2 p-4">
-              {filteredTransactions.map((transaction) => (
+              {filteredTransactions.map((transaction, index) => (
                 <div
                   key={transaction.id}
-                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                  className={cn(
+                    "flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-[1.02] animate-fade-in",
+                    deletingId === transaction.id && "scale-95 opacity-50"
+                  )}
+                  style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <div className="flex items-center space-x-3 flex-1">
-                    <div className="text-2xl">
+                    <div className="text-2xl transition-transform duration-300 hover:scale-110">
                       {getCategoryIcon(transaction.category)}
                     </div>
                     <div className="flex-1 min-w-0">
@@ -144,8 +156,8 @@ const TransactionsList = () => {
                   <div className="flex items-center space-x-3">
                     <div className="text-right">
                       <p className={cn(
-                        "font-semibold",
-                        transaction.type === 'income' ? 'text-rupee-green' : 'text-red-600'
+                        "font-semibold transition-colors duration-300",
+                        transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
                       )}>
                         {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
                       </p>
@@ -156,7 +168,7 @@ const TransactionsList = () => {
                       variant="ghost"
                       size="sm"
                       onClick={() => handleDelete(transaction.id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2"
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 transition-all duration-300 hover:scale-110 active:scale-95"
                     >
                       <Trash2 size={16} />
                     </Button>
