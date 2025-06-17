@@ -44,6 +44,10 @@ const Settings = () => {
     }
   };
 
+  const handleCreatorLink = () => {
+    window.open('https://dineshcreates.vercel.app/', '_blank');
+  };
+
   return (
     <div className="p-4 pb-24 space-y-6 animate-fade-in">
       <div className="text-center">
@@ -113,9 +117,18 @@ const Settings = () => {
             </div>
           </div>
 
-          <div className="text-center text-xs text-gray-500 dark:text-gray-400 pt-4 border-t border-gray-200 dark:border-gray-600">
-            <p>Made with ❤️ for Indian users</p>
-            <p>No login required • Works offline • Privacy first</p>
+          <div className="text-center pt-4 border-t border-gray-200 dark:border-gray-600">
+            <div 
+              onClick={handleCreatorLink}
+              className="cursor-pointer hover:scale-105 transition-transform"
+            >
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                Crafted by Dinesh Creates
+              </p>
+              <p className="text-sm font-medium bg-gradient-to-r from-purple-600 via-red-500 to-blue-600 bg-clip-text text-transparent">
+                Click here to get one ✨
+              </p>
+            </div>
           </div>
         </CardContent>
       </Card>

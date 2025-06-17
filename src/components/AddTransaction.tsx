@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -83,7 +84,7 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
           <CardTitle className="text-center text-xl">Add Transaction</CardTitle>
           
           {/* Income/Expense Toggle */}
-          <div className="flex bg-gray-100 rounded-lg p-1 mt-4">
+          <div className="flex bg-gray-100 dark:bg-gray-700 rounded-lg p-1 mt-4">
             <button
               type="button"
               onClick={() => {
@@ -94,7 +95,7 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
                 "flex-1 py-2 px-4 rounded-md font-medium transition-all",
                 type === 'expense' 
                   ? "bg-red-500 text-white shadow-sm" 
-                  : "text-gray-600 hover:text-gray-800"
+                  : "text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100"
               )}
             >
               💸 Expense
@@ -108,8 +109,8 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
               className={cn(
                 "flex-1 py-2 px-4 rounded-md font-medium transition-all",
                 type === 'income' 
-                  ? "bg-rupee-green text-white shadow-sm" 
-                  : "text-gray-600 hover:text-gray-800"
+                  ? "bg-green-500 text-white shadow-sm" 
+                  : "text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100"
               )}
             >
               💰 Income
@@ -136,7 +137,7 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
                 />
               </div>
               {amount && (
-                <p className="text-sm text-gray-600">
+                <p className="text-sm text-gray-600 dark:text-gray-400">
                   Amount: ₹{formatCurrency(amount)}
                 </p>
               )}
@@ -154,8 +155,10 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
                     className={cn(
                       "p-3 rounded-lg border-2 transition-all flex flex-col items-center space-y-1",
                       category === cat.id
-                        ? "border-rupee-green bg-rupee-light"
-                        : "border-gray-200 hover:border-gray-300"
+                        ? type === 'income'
+                          ? "border-green-500 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                          : "border-red-500 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                        : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
                     )}
                   >
                     <span className="text-2xl">{cat.icon}</span>
@@ -194,7 +197,12 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
             {/* Submit Button */}
             <Button 
               type="submit" 
-              className="w-full h-12 text-lg font-semibold bg-rupee-green hover:bg-emerald-700"
+              className={cn(
+                "w-full h-12 text-lg font-semibold text-white transition-colors",
+                type === 'income' 
+                  ? "bg-green-500 hover:bg-green-600" 
+                  : "bg-red-500 hover:bg-red-600"
+              )}
               disabled={!amount || !category}
             >
               Add {type === 'income' ? 'Income' : 'Expense'}
