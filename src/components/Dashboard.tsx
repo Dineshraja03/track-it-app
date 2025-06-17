@@ -1,7 +1,7 @@
-
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { useTransactions } from '@/hooks/useTransactions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 const Dashboard = () => {
   const { getBalance, getTodayTotal, getMonthlyTotal, transactions } = useTransactions();
