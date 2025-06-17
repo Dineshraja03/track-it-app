@@ -42,7 +42,7 @@ const Dashboard = ({ onNavigateToAdd }: DashboardProps) => {
     <div className="p-4 pb-24 space-y-6 animate-fade-in">
       {/* Welcome Header */}
       <div className="text-center pt-4">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white transition-colors duration-300">Good day! 👋</h1>
+        <h1 className="text-2xl font-bold text-gray-800 dark:text-white transition-colors duration-300">Track it 📈</h1>
         <p className="text-gray-600 dark:text-gray-300 mt-1 transition-colors duration-300">Manage your expenses smartly</p>
       </div>
 
