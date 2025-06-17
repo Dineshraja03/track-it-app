@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,10 +11,11 @@ import { useToast } from '@/hooks/use-toast';
 
 interface AddTransactionProps {
   onSuccess?: () => void;
+  defaultType?: 'income' | 'expense';
 }
 
-const AddTransaction = ({ onSuccess }: AddTransactionProps) => {
-  const [type, setType] = useState<'income' | 'expense'>('expense');
+const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
+  const [type, setType] = useState<'income' | 'expense'>(defaultType || 'expense');
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
   const [notes, setNotes] = useState('');
