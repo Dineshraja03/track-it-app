@@ -17,7 +17,7 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 safe-area z-50">
+    <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 safe-area z-50">
       <div className="flex justify-around items-center py-2 px-4">
         {tabs.map((tab) => {
           const Icon = tab.icon;
@@ -28,7 +28,7 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className="bg-rupee-green text-white rounded-full p-3 shadow-lg transform transition-transform hover:scale-110 active:scale-95"
+                className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 shadow-lg transform transition-transform hover:scale-110 active:scale-95"
               >
                 <Icon size={24} />
               </button>
@@ -42,8 +42,8 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
               className={cn(
                 "flex flex-col items-center py-2 px-3 rounded-lg transition-colors",
                 isActive 
-                  ? "text-rupee-green bg-rupee-light" 
-                  : "text-gray-500 hover:text-gray-700"
+                  ? "text-blue-600 bg-blue-50 dark:text-blue-400 dark:bg-blue-900/30" 
+                  : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               )}
             >
               <Icon size={20} />

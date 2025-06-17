@@ -3,7 +3,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
 
@@ -18,7 +18,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 142 76% 36%;
+    --primary: 217 91% 60%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -35,14 +35,9 @@
 
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 142 76% 36%;
+    --ring: 217 91% 60%;
 
     --radius: 0.5rem;
-
-    --rupee-green: 142 76% 36%;
-    --rupee-orange: 22 96% 50%;
-    --rupee-light: 142 40% 90%;
-    --rupee-dark: 142 86% 20%;
   }
 
   .dark {
@@ -55,7 +50,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 142 76% 36%;
+    --primary: 217 91% 60%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -72,7 +67,7 @@
 
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
-    --ring: 142 76% 36%;
+    --ring: 217 91% 60%;
   }
 }
 
@@ -82,41 +77,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-['Inter'];
-  }
-}
-
-@layer utilities {
-  .rupee-green {
-    color: hsl(var(--rupee-green));
-  }
-  
-  .rupee-orange {
-    color: hsl(var(--rupee-orange));
-  }
-  
-  .bg-rupee-green {
-    background-color: hsl(var(--rupee-green));
-  }
-  
-  .bg-rupee-orange {
-    background-color: hsl(var(--rupee-orange));
-  }
-  
-  .bg-rupee-light {
-    background-color: hsl(var(--rupee-light));
-  }
-  
-  .text-rupee-green {
-    color: hsl(var(--rupee-green));
-  }
-  
-  .text-rupee-orange {
-    color: hsl(var(--rupee-orange));
-  }
-  
-  .text-rupee-dark {
-    color: hsl(var(--rupee-dark));
+    @apply bg-background text-foreground font-poppins;
   }
 }
 

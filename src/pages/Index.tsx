@@ -6,6 +6,7 @@ import AddTransaction from '@/components/AddTransaction';
 import TransactionsList from '@/components/TransactionsList';
 import Insights from '@/components/Insights';
 import Settings from '@/components/Settings';
+import NightModeToggle from '@/components/NightModeToggle';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -28,9 +29,9 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Main Content */}
-      <div className="max-w-md mx-auto bg-white min-h-screen shadow-lg">
+      <div className="max-w-md mx-auto bg-white dark:bg-gray-800 min-h-screen shadow-lg">
         {renderActiveComponent()}
       </div>
 
@@ -38,6 +39,9 @@ const Index = () => {
       <div className="max-w-md mx-auto">
         <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />
       </div>
+
+      {/* Night Mode Toggle */}
+      <NightModeToggle />
     </div>
   );
 };
