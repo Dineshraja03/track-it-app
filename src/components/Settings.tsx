@@ -96,7 +96,13 @@ const Settings = () => {
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="text-center py-4">
-            <div className="text-4xl mb-2">💰</div>
+            <div className="text-4xl mb-2">
+              <img 
+                src="/lovable-uploads/cdf04575-1e22-4f1e-9045-25db08ecf765.png" 
+                alt="Track It Logo" 
+                className="w-16 h-16 mx-auto"
+              />
+            </div>
             <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Track It</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">Your Smart Expense Manager</p>
             <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">Version 1.0.0</p>
@@ -122,10 +128,10 @@ const Settings = () => {
               onClick={handleCreatorLink}
               className="cursor-pointer hover:scale-105 transition-transform"
             >
-              <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              <p className="text-sm font-medium mb-1 animate-flowing-gradient bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
                 Crafted by Dinesh Creates
               </p>
-              <p className="text-sm font-medium bg-gradient-to-r from-purple-600 via-red-500 to-blue-600 bg-clip-text text-transparent">
+              <p className="text-sm font-medium animate-flowing-gradient bg-gradient-to-r from-purple-600 via-red-500 to-blue-600 bg-clip-text text-transparent">
                 Click here to get one ✨
               </p>
             </div>

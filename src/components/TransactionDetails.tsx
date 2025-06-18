@@ -33,21 +33,21 @@ const TransactionDetails = ({ transaction, isOpen, onClose }: TransactionDetails
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-sm mx-auto">
+      <DialogContent className="max-w-sm mx-auto max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-center text-gray-800 dark:text-white">
             Transaction Details
           </DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-4 p-2">
+        <div className="space-y-3 p-1">
           {/* Category Icon and Name */}
           <div className="flex items-center justify-center space-x-3">
-            <div className="text-4xl">
+            <div className="text-3xl">
               {getCategoryIcon(transaction.category)}
             </div>
             <div className="text-center">
-              <h3 className="text-xl font-semibold text-gray-800 dark:text-white capitalize">
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white capitalize">
                 {getCategoryName(transaction.category)}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300 capitalize">
@@ -59,7 +59,7 @@ const TransactionDetails = ({ transaction, isOpen, onClose }: TransactionDetails
           {/* Amount */}
           <div className="text-center">
             <p className={cn(
-              "text-3xl font-bold",
+              "text-2xl font-bold",
               transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
             )}>
               {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
@@ -97,7 +97,7 @@ const TransactionDetails = ({ transaction, isOpen, onClose }: TransactionDetails
           <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
             <div className="flex justify-between items-center">
               <span className="text-sm font-medium text-gray-600 dark:text-gray-300">ID:</span>
-              <span className="text-xs text-gray-500 dark:text-gray-400 font-mono">
+              <span className="text-xs text-gray-500 dark:text-gray-400 font-mono break-all">
                 {transaction.id}
               </span>
             </div>

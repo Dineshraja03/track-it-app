@@ -157,6 +157,18 @@
   }
 }
 
+@keyframes flowing-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
@@ -184,6 +196,12 @@
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+.animate-flowing-gradient {
+  background-size: 200% 200%;
+  animation: flowing-gradient 3s ease-in-out infinite;
   font-weight: 600;
 }
 

@@ -146,12 +146,6 @@ const TransactionsList = () => {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2 text-xs text-gray-600 dark:text-gray-300">
                         <span>{new Date(transaction.date).toLocaleDateString('en-IN')}</span>
-                        {transaction.notes && (
-                          <>
-                            <span>•</span>
-                            <span className="truncate">{transaction.notes}</span>
-                          </>
-                        )}
                       </div>
                     </div>
                   </div>

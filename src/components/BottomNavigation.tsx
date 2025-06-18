@@ -30,7 +30,7 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
                 onClick={() => onTabChange(tab.id)}
                 className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 shadow-lg transform transition-transform hover:scale-110 active:scale-95"
               >
-                <Icon size={24} />
+                <Icon size={20} />
               </button>
             );
           }
@@ -46,7 +46,7 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               )}
             >
-              <Icon size={20} />
+              <Icon size={18} />
               <span className="text-xs mt-1 font-medium">{tab.label}</span>
             </button>
           );
