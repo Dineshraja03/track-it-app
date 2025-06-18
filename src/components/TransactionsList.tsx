@@ -8,11 +8,15 @@ import { getCategoryById } from '@/data/categories';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { Trash2, Search } from 'lucide-react';
+import { Transaction } from '@/types/transaction';
+import TransactionDetails from './TransactionDetails';
 
 const TransactionsList = () => {
   const [filter, setFilter] = useState<'all' | 'income' | 'expense'>('all');
   const [searchTerm, setSearchTerm] = useState('');
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { transactions, deleteTransaction } = useTransactions();
   const { toast } = useToast();
 
@@ -33,7 +37,8 @@ const TransactionsList = () => {
     }).format(amount);
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation(); // Prevent triggering the transaction details
     setDeletingId(id);
     setTimeout(() => {
       deleteTransaction(id);
@@ -45,14 +50,14 @@ const TransactionsList = () => {
     }, 200);
   };
 
+  const handleTransactionClick = (transaction: Transaction) => {
+    setSelectedTransaction(transaction);
+    setIsDetailsOpen(true);
+  };
+
   const getCategoryIcon = (categoryId: string) => {
     const category = getCategoryById(categoryId);
     return category?.icon || '💳';
-  };
-
-  const getCategoryName = (categoryId: string) => {
-    const category = getCategoryById(categoryId);
-    return category?.name || categoryId;
   };
 
   return (
@@ -127,8 +132,9 @@ const TransactionsList = () => {
               {filteredTransactions.map((transaction, index) => (
                 <div
                   key={transaction.id}
+                  onClick={() => handleTransactionClick(transaction)}
                   className={cn(
-                    "flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-[1.02] animate-fade-in",
+                    "flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-[1.02] animate-fade-in cursor-pointer",
                     deletingId === transaction.id && "scale-95 opacity-50"
                   )}
                   style={{ animationDelay: `${index * 0.05}s` }}
@@ -138,10 +144,7 @@ const TransactionsList = () => {
                       {getCategoryIcon(transaction.category)}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="font-medium text-gray-800 truncate">
-                        {getCategoryName(transaction.category)}
-                      </p>
-                      <div className="flex items-center space-x-2 text-xs text-gray-600">
+                      <div className="flex items-center space-x-2 text-xs text-gray-600 dark:text-gray-300">
                         <span>{new Date(transaction.date).toLocaleDateString('en-IN')}</span>
                         {transaction.notes && (
                           <>
@@ -157,18 +160,18 @@ const TransactionsList = () => {
                     <div className="text-right">
                       <p className={cn(
                         "font-semibold transition-colors duration-300",
-                        transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                        transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
                       )}>
                         {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
                       </p>
-                      <p className="text-xs text-gray-500 capitalize">{transaction.type}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{transaction.type}</p>
                     </div>
                     
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleDelete(transaction.id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 transition-all duration-300 hover:scale-110 active:scale-95"
+                      onClick={(e) => handleDelete(e, transaction.id)}
+                      className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 transition-all duration-300 hover:scale-110 active:scale-95"
                     >
                       <Trash2 size={16} />
                     </Button>
@@ -179,6 +182,13 @@ const TransactionsList = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Transaction Details Dialog */}
+      <TransactionDetails
+        transaction={selectedTransaction}
+        isOpen={isDetailsOpen}
+        onClose={() => setIsDetailsOpen(false)}
+      />
     </div>
   );
 };

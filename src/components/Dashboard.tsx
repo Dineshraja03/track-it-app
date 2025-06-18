@@ -4,7 +4,6 @@ import { useTransactions } from '@/hooks/useTransactions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 interface DashboardProps {
   onNavigateToAdd?: (type: 'income' | 'expense') => void;
@@ -144,8 +143,10 @@ const Dashboard = ({ onNavigateToAdd }: DashboardProps) => {
                      transaction.category === 'salary' ? '💼' : '💳'}
                   </span>
                   <div>
-                    <p className="font-medium text-gray-800 dark:text-gray-200 capitalize">{transaction.category}</p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">{new Date(transaction.date).toLocaleDateString('en-IN')}</p>
+                    {transaction.notes && (
+                      <p className="text-xs text-gray-500 dark:text-gray-500 truncate max-w-32">{transaction.notes}</p>
+                    )}
                   </div>
                 </div>
                 <p className={cn(

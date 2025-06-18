@@ -134,6 +134,29 @@
   }
 }
 
+@keyframes gradient-breathe {
+  0%, 100% {
+    background: linear-gradient(45deg, #3b82f6, #8b5cf6, #06b6d4);
+    background-size: 300% 300%;
+    background-position: 0% 50%;
+  }
+  25% {
+    background: linear-gradient(45deg, #8b5cf6, #06b6d4, #10b981);
+    background-size: 300% 300%;
+    background-position: 100% 50%;
+  }
+  50% {
+    background: linear-gradient(45deg, #06b6d4, #10b981, #f59e0b);
+    background-size: 300% 300%;
+    background-position: 50% 100%;
+  }
+  75% {
+    background: linear-gradient(45deg, #10b981, #f59e0b, #3b82f6);
+    background-size: 300% 300%;
+    background-position: 50% 0%;
+  }
+}
+
 .animate-slide-up {
   animation: slide-up 0.3s ease-out;
 }
@@ -154,6 +177,14 @@
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
   background-size: 200px 100%;
   animation: shimmer 1.5s infinite;
+}
+
+.animate-gradient-breathe {
+  animation: gradient-breathe 4s ease-in-out infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
 }
 
 /* Hover effects for interactive elements */
