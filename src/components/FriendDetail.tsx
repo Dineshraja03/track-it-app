@@ -26,13 +26,14 @@ const FriendDetail = ({ friendId, onBack }: FriendDetailProps) => {
   const [showTransaction, setShowTransaction] = useState<'gave' | 'got' | null>(null);
 
   const friend = friends.find(f => f.id === friendId);
-  const balance = getFriendBalance(friendId);
-  const transactions = getFriendTransactions(friendId);
 
   if (!friend) {
     onBack();
     return null;
   }
+
+  const balance = getFriendBalance(friendId);
+  const transactions = getFriendTransactions(friendId);
 
   if (showTransaction) {
     return (
