@@ -1,5 +1,5 @@
 
-import { Home, List, Plus, ChartPie, Settings } from 'lucide-react';
+import { Home, List, Plus, ChartPie, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface BottomNavigationProps {
@@ -13,7 +13,7 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
     { id: 'transactions', label: 'History', icon: List },
     { id: 'add', label: 'Add', icon: Plus, isCenter: true },
     { id: 'insights', label: 'Insights', icon: ChartPie },
-    { id: 'settings', label: 'Settings', icon: Settings },
+    { id: 'friends', label: 'Friends', icon: Users },
   ];
 
   return (
@@ -30,7 +30,7 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
                 onClick={() => onTabChange(tab.id)}
                 className="bg-blue-600 hover:bg-blue-700 text-white rounded-full p-3 shadow-lg transform transition-transform hover:scale-110 active:scale-95"
               >
-                <Icon size={20} />
+                <Icon size={18} />
               </button>
             );
           }
@@ -46,7 +46,7 @@ const BottomNavigation = ({ activeTab, onTabChange }: BottomNavigationProps) => 
                   : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
               )}
             >
-              <Icon size={18} />
+              <Icon size={16} />
               <span className="text-xs mt-1 font-medium">{tab.label}</span>
             </button>
           );
