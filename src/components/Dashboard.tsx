@@ -167,43 +167,7 @@ const Dashboard = ({ onNavigateToAdd }: DashboardProps) => {
       </Card>
 
       {/* Recent Transactions */}
-      {recentTransactions.length > 0 && (
-        <Card className="shadow-sm border-blue-100 dark:border-gray-700 hover:shadow-md transition-all duration-300">
-          <CardHeader>
-            <CardTitle className="text-lg">Recent Transactions</CardTitle>
-          </CardHeader>
-          <CardContent className="p-4 pt-0 space-y-3">
-            {recentTransactions.map((transaction, index) => (
-              <div 
-                key={transaction.id} 
-                className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700/50 transition-all duration-300 hover:scale-[1.02] animate-fade-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                <div className="flex items-center space-x-3">
-                  <span className="text-2xl transition-transform duration-300 hover:scale-110">
-                    {transaction.category === 'food' ? '🍽️' : 
-                     transaction.category === 'auto' ? '🚗' : 
-                     transaction.category === 'petrol' ? '⛽' : 
-                     transaction.category === 'salary' ? '💼' : '💳'}
-                  </span>
-                  <div>
-                    <p className="text-xs text-gray-600 dark:text-gray-400">{new Date(transaction.date).toLocaleDateString('en-IN')}</p>
-                    {transaction.notes && (
-                      <p className="text-xs text-gray-500 dark:text-gray-500 truncate max-w-32">{transaction.notes}</p>
-                    )}
-                  </div>
-                </div>
-                <p className={cn(
-                  "font-semibold transition-colors duration-300",
-                  transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                )}>
-                  {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                </p>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-      )}
+      {/* Removed recent transactions section */}
 
       {/* Data Management */}
       <Card className="shadow-sm">

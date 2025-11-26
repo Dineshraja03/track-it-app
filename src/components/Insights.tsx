@@ -116,9 +116,6 @@ const Insights = () => {
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip 
-                    formatter={(value: number) => [formatCurrency(value), 'Amount']}
-                  />
                 </PieChart>
               </ResponsiveContainer>
             </div>

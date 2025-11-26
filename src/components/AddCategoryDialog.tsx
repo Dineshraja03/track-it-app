@@ -90,7 +90,7 @@ const AddCategoryDialog = ({ isOpen, onClose, onAdd, type }: AddCategoryDialogPr
                     key={emoji}
                     type="button"
                     onClick={() => setSelectedIcon(emoji)}
-                    className={`text-2xl p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-all ${
+                    className={`flex items-center justify-center w-10 h-10 text-2xl rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-all ${
                       selectedIcon === emoji
                         ? 'bg-blue-100 dark:bg-blue-900/30 ring-2 ring-blue-500'
                         : ''

@@ -126,6 +126,9 @@ const TransactionsList = () => {
                       {getCategoryIcon(transaction.category)}
                     </div>
                     <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-gray-800 dark:text-gray-100 truncate">
+                        {getCategoryById(transaction.category)?.name || transaction.category}
+                      </div>
                       <div className="flex items-center space-x-2 text-xs text-gray-600 dark:text-gray-300">
                         <span>{new Date(transaction.date).toLocaleDateString('en-IN')}</span>
                       </div>
