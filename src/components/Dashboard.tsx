@@ -1,7 +1,9 @@
 
-import { TrendingUp, TrendingDown } from 'lucide-react';
+import { TrendingUp, TrendingDown, Download, Trash2 } from 'lucide-react';
 import { useTransactions } from '@/hooks/useTransactions';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 
@@ -12,6 +14,7 @@ interface DashboardProps {
 const Dashboard = ({ onNavigateToAdd }: DashboardProps) => {
   const { getBalance, getTodayTotal, getMonthlyTotal, transactions } = useTransactions();
   const [animatingCard, setAnimatingCard] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const balance = getBalance();
   const todaySpending = getTodayTotal();
@@ -35,6 +38,47 @@ const Dashboard = ({ onNavigateToAdd }: DashboardProps) => {
         onNavigateToAdd(type);
       }
     }, 200);
+  };
+
+  const handleExportData = () => {
+    const transactions = localStorage.getItem('rupee-sahayak-transactions');
+    if (!transactions) {
+      toast({
+        title: "No Data",
+        description: "No transactions to export",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const dataStr = JSON.stringify(JSON.parse(transactions), null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `track-it-backup-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Data Exported",
+      description: "Your data has been downloaded successfully",
+    });
+  };
+
+  const handleClearData = () => {
+    if (window.confirm('Are you sure you want to delete all transactions? This action cannot be undone.')) {
+      localStorage.removeItem('rupee-sahayak-transactions');
+      toast({
+        title: "Data Cleared",
+        description: "All transactions have been deleted",
+      });
+      window.location.reload();
+    }
+  };
+
+  const handleCreatorLink = () => {
+    window.open('https://dineshcreates.vercel.app/', '_blank');
   };
 
   return (
@@ -160,6 +204,90 @@ const Dashboard = ({ onNavigateToAdd }: DashboardProps) => {
           </CardContent>
         </Card>
       )}
+
+      {/* Data Management */}
+      <Card className="shadow-sm">
+        <CardHeader>
+          <CardTitle className="text-lg text-gray-800 dark:text-white">Data Management</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <div className="space-y-3">
+            <Button
+              onClick={handleExportData}
+              className="w-full justify-start bg-green-600 hover:bg-green-700 text-white"
+            >
+              <Download className="mr-2" size={16} />
+              Export Data (JSON)
+            </Button>
+
+            <Button
+              onClick={handleClearData}
+              variant="destructive"
+              className="w-full justify-start"
+            >
+              <Trash2 className="mr-2" size={16} />
+              Clear All Data
+            </Button>
+          </div>
+
+          <div className="p-3 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700 rounded-lg">
+            <p className="text-sm text-yellow-800 dark:text-yellow-200">
+              <strong>Backup Reminder:</strong> Your data is stored locally on this device. 
+              Export regularly to avoid losing your transaction history.
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* App Info */}
+      <Card className="shadow-sm">
+        <CardHeader>
+          <CardTitle className="text-lg text-gray-800 dark:text-white">About</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="text-center py-4">
+            <div className="text-4xl mb-2">
+              <img 
+                src="/lovable-uploads/cdf04575-1e22-4f1e-9045-25db08ecf765.png" 
+                alt="Track It Logo" 
+                className="w-16 h-16 mx-auto"
+              />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-800 dark:text-white">Track It</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">Your Smart Expense Manager</p>
+            <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">Version 1.0.2</p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p className="text-lg font-bold text-green-600 dark:text-green-400">Free</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">Forever</p>
+            </div>
+            <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p className="text-lg font-bold text-blue-600 dark:text-blue-400">Offline</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">No Internet</p>
+            </div>
+            <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <p className="text-lg font-bold text-purple-600 dark:text-purple-400">Private</p>
+              <p className="text-xs text-gray-600 dark:text-gray-400">Local Storage</p>
+            </div>
+          </div>
+
+          <div className="text-center pt-4 border-t border-gray-200 dark:border-gray-600">
+            <div 
+              onClick={handleCreatorLink}
+              className="cursor-pointer hover:scale-105 transition-transform"
+            >
+              <p className="text-sm font-medium mb-1 animate-flowing-gradient bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent">
+                Crafted by Dinesh Creates
+              </p>
+              <p className="text-sm font-medium animate-flowing-gradient bg-gradient-to-r from-purple-600 via-red-500 to-blue-600 bg-clip-text text-transparent">
+                Click here to get one ✨
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };

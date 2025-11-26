@@ -6,19 +6,16 @@ import { Input } from '@/components/ui/input';
 import { useTransactions } from '@/hooks/useTransactions';
 import { getCategoryById } from '@/data/categories';
 import { cn } from '@/lib/utils';
-import { useToast } from '@/hooks/use-toast';
-import { Trash2, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { Transaction } from '@/types/transaction';
 import TransactionDetails from './TransactionDetails';
 
 const TransactionsList = () => {
   const [filter, setFilter] = useState<'all' | 'income' | 'expense'>('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [deletingId, setDeletingId] = useState<string | null>(null);
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
-  const { transactions, deleteTransaction } = useTransactions();
-  const { toast } = useToast();
+  const { transactions } = useTransactions();
 
   const filteredTransactions = transactions.filter(transaction => {
     const matchesFilter = filter === 'all' || transaction.type === filter;
@@ -35,19 +32,6 @@ const TransactionsList = () => {
       currency: 'INR',
       minimumFractionDigits: 0,
     }).format(amount);
-  };
-
-  const handleDelete = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation(); // Prevent triggering the transaction details
-    setDeletingId(id);
-    setTimeout(() => {
-      deleteTransaction(id);
-      toast({
-        title: "Transaction Deleted",
-        description: "Transaction has been removed successfully",
-      });
-      setDeletingId(null);
-    }, 200);
   };
 
   const handleTransactionClick = (transaction: Transaction) => {
@@ -133,10 +117,7 @@ const TransactionsList = () => {
                 <div
                   key={transaction.id}
                   onClick={() => handleTransactionClick(transaction)}
-                  className={cn(
-                    "flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-[1.02] animate-fade-in cursor-pointer",
-                    deletingId === transaction.id && "scale-95 opacity-50"
-                  )}
+                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-all duration-300 hover:scale-[1.02] animate-fade-in cursor-pointer"
                   style={{ animationDelay: `${index * 0.05}s` }}
                 >
                   <div className="flex items-center space-x-3 flex-1">
@@ -150,25 +131,14 @@ const TransactionsList = () => {
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-3">
-                    <div className="text-right">
-                      <p className={cn(
-                        "font-semibold transition-colors duration-300",
-                        transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
-                      )}>
-                        {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{transaction.type}</p>
-                    </div>
-                    
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={(e) => handleDelete(e, transaction.id)}
-                      className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 p-2 transition-all duration-300 hover:scale-110 active:scale-95"
-                    >
-                      <Trash2 size={16} />
-                    </Button>
+                  <div className="text-right">
+                    <p className={cn(
+                      "font-semibold transition-colors duration-300",
+                      transaction.type === 'income' ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                    )}>
+                      {transaction.type === 'income' ? '+' : '-'}{formatCurrency(transaction.amount)}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 capitalize">{transaction.type}</p>
                   </div>
                 </div>
               ))}
