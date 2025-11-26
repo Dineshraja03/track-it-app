@@ -3,6 +3,7 @@ export interface Friend {
   name: string;
   balance: number; // positive = they owe me, negative = I owe them
   createdAt: string;
+  profilePicture?: string; // base64 encoded image
 }
 
 export interface FriendTransaction {

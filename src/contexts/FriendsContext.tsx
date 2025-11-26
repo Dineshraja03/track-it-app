@@ -9,7 +9,7 @@ const TRANSACTIONS_KEY = 'rupee-sahayak-transactions';
 interface FriendsContextType {
   friends: Friend[];
   friendTransactions: FriendTransaction[];
-  addFriend: (name: string) => Friend;
+  addFriend: (name: string, profilePicture?: string) => Friend;
   deleteFriend: (id: string) => void;
   addFriendTransaction: (friendId: string, amount: number, type: 'gave' | 'got', notes?: string) => void;
   getFriendTransactions: (friendId: string) => FriendTransaction[];
@@ -53,12 +53,13 @@ export const FriendsProvider: React.FC<{ children: React.ReactNode }> = ({ child
     localStorage.setItem(FRIEND_TRANSACTIONS_KEY, JSON.stringify(newTransactions));
   };
 
-  const addFriend = (name: string) => {
+  const addFriend = (name: string, profilePicture?: string) => {
     const newFriend: Friend = {
       id: Date.now().toString(),
       name,
       balance: 0,
       createdAt: new Date().toISOString(),
+      profilePicture,
     };
     saveFriends([...friends, newFriend]);
     return newFriend;

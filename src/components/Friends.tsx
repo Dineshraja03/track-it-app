@@ -80,10 +80,18 @@ const Friends = () => {
                 onClick={() => setSelectedFriendId(friend.id)}
               >
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-gradient-to-br from-blue-500 to-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-semibold text-lg">
-                      {friend.name.charAt(0).toUpperCase()}
-                    </div>
+                <div className="flex items-center gap-3">
+                    {friend.profilePicture ? (
+                      <img
+                        src={friend.profilePicture}
+                        alt={friend.name}
+                        className="w-12 h-12 rounded-full object-cover border-2 border-gray-200 dark:border-gray-600"
+                      />
+                    ) : (
+                      <div className="bg-gradient-to-br from-blue-500 to-purple-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-semibold text-lg">
+                        {friend.name.charAt(0).toUpperCase()}
+                      </div>
+                    )}
                     <div>
                       <h3 className="font-semibold text-gray-900 dark:text-gray-100">
                         {friend.name}
