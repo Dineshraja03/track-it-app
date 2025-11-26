@@ -1,7 +1,7 @@
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Transaction } from '@/types/transaction';
-import { getCategoryById } from '@/data/categories';
+import { useCategories } from '@/hooks/useCategories';
 import { cn } from '@/lib/utils';
 
 interface TransactionDetailsProps {
@@ -11,6 +11,8 @@ interface TransactionDetailsProps {
 }
 
 const TransactionDetails = ({ transaction, isOpen, onClose }: TransactionDetailsProps) => {
+  const { getCategoryById } = useCategories();
+  
   if (!transaction) return null;
 
   const formatCurrency = (amount: number) => {

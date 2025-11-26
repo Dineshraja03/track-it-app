@@ -1,14 +1,16 @@
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTransactions } from '@/hooks/useTransactions';
-import { getCategoriesByType } from '@/data/categories';
+import { useCategories } from '@/hooks/useCategories';
 import { cn } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
+import { Plus, X } from 'lucide-react';
+import AddCategoryDialog from './AddCategoryDialog';
 
 interface AddTransactionProps {
   onSuccess?: () => void;
@@ -21,9 +23,13 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
   const [category, setCategory] = useState('');
   const [notes, setNotes] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
+  const [longPressCategory, setLongPressCategory] = useState<string | null>(null);
   
   const { addTransaction } = useTransactions();
+  const { getCategoriesByType, addCategory, deleteCategory, isCustomCategory } = useCategories();
   const { toast } = useToast();
+  const longPressTimer = useRef<NodeJS.Timeout | null>(null);
 
   const categories = getCategoriesByType(type);
 
@@ -75,6 +81,48 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
     const num = parseFloat(value);
     if (isNaN(num)) return '';
     return new Intl.NumberFormat('en-IN').format(num);
+  };
+
+  const handleAddCategory = (name: string, icon: string, categoryType: 'income' | 'expense') => {
+    addCategory({
+      name,
+      icon,
+      color: categoryType === 'income' ? '#10B981' : '#F97316',
+      type: categoryType,
+    });
+    
+    toast({
+      title: "Category Added",
+      description: `${name} has been added successfully`,
+    });
+  };
+
+  const handleLongPressStart = (catId: string) => {
+    if (!isCustomCategory(catId)) return;
+    
+    longPressTimer.current = setTimeout(() => {
+      setLongPressCategory(catId);
+    }, 500); // 500ms long press
+  };
+
+  const handleLongPressEnd = () => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
+    }
+  };
+
+  const handleDeleteCategory = (catId: string) => {
+    if (category === catId) {
+      setCategory('');
+    }
+    deleteCategory(catId);
+    setLongPressCategory(null);
+    
+    toast({
+      title: "Category Deleted",
+      description: "Custom category has been removed",
+    });
   };
 
   return (
@@ -148,25 +196,52 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
               <Label className="text-base font-medium">Category</Label>
               <div className="grid grid-cols-3 gap-3">
                 {categories.map((cat) => (
-                  <button
-                    key={cat.id}
-                    type="button"
-                    onClick={() => setCategory(cat.id)}
-                    className={cn(
-                      "p-3 rounded-lg border-2 transition-all flex flex-col items-center space-y-1",
-                      category === cat.id
-                        ? type === 'income'
-                          ? "border-green-500 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
-                          : "border-red-500 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
-                        : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
+                  <div key={cat.id} className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setCategory(cat.id)}
+                      onTouchStart={() => handleLongPressStart(cat.id)}
+                      onTouchEnd={handleLongPressEnd}
+                      onMouseDown={() => handleLongPressStart(cat.id)}
+                      onMouseUp={handleLongPressEnd}
+                      onMouseLeave={handleLongPressEnd}
+                      className={cn(
+                        "w-full p-3 rounded-lg border-2 transition-all flex flex-col items-center space-y-1",
+                        category === cat.id
+                          ? type === 'income'
+                            ? "border-green-500 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                            : "border-red-500 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300"
+                          : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
+                      )}
+                    >
+                      <span className="text-2xl">{cat.icon}</span>
+                      <span className="text-xs font-medium text-center leading-tight">
+                        {cat.name}
+                      </span>
+                    </button>
+                    {longPressCategory === cat.id && isCustomCategory(cat.id) && (
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteCategory(cat.id)}
+                        className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 shadow-lg hover:bg-red-600 transition-all z-10"
+                      >
+                        <X size={14} />
+                      </button>
                     )}
-                  >
-                    <span className="text-2xl">{cat.icon}</span>
-                    <span className="text-xs font-medium text-center leading-tight">
-                      {cat.name}
-                    </span>
-                  </button>
+                  </div>
                 ))}
+                
+                {/* Add Category Button */}
+                <button
+                  type="button"
+                  onClick={() => setIsAddCategoryOpen(true)}
+                  className="p-3 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-blue-400 dark:hover:border-blue-500 transition-all flex flex-col items-center space-y-1 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+                >
+                  <Plus className="text-blue-500" size={24} />
+                  <span className="text-xs font-medium text-center leading-tight text-gray-600 dark:text-gray-400">
+                    Add New
+                  </span>
+                </button>
               </div>
             </div>
 
@@ -210,6 +285,14 @@ const AddTransaction = ({ onSuccess, defaultType }: AddTransactionProps) => {
           </form>
         </CardContent>
       </Card>
+
+      {/* Add Category Dialog */}
+      <AddCategoryDialog
+        isOpen={isAddCategoryOpen}
+        onClose={() => setIsAddCategoryOpen(false)}
+        onAdd={handleAddCategory}
+        type={type}
+      />
     </div>
   );
 };
