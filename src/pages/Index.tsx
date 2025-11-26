@@ -5,12 +5,9 @@ import Dashboard from '@/components/Dashboard';
 import AddTransaction from '@/components/AddTransaction';
 import TransactionsList from '@/components/TransactionsList';
 import Insights from '@/components/Insights';
-import Settings from '@/components/Settings';
 import Friends from '@/components/Friends';
 import NightModeToggle from '@/components/NightModeToggle';
 import { Loader } from '@/components/ui/loader';
-import { Button } from '@/components/ui/button';
-import { SettingsIcon } from 'lucide-react';
 
 const Index = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -56,8 +53,6 @@ const Index = () => {
         return <Insights />;
       case 'friends':
         return <Friends />;
-      case 'settings':
-        return <Settings />;
       default:
         return <Dashboard onNavigateToAdd={handleNavigateToAdd} />;
     }
@@ -74,15 +69,6 @@ const Index = () => {
       <div className="max-w-md mx-auto">
         <BottomNavigation activeTab={activeTab} onTabChange={setActiveTab} />
       </div>
-
-      {/* Floating Settings Button */}
-      <Button
-        onClick={() => setActiveTab('settings')}
-        size="icon"
-        className="fixed top-4 right-4 z-50 rounded-full w-12 h-12 bg-gray-800 hover:bg-gray-700 dark:bg-gray-700 dark:hover:bg-gray-600 text-white shadow-lg"
-      >
-        <SettingsIcon className="h-5 w-5" />
-      </Button>
 
       {/* Night Mode Toggle */}
       <NightModeToggle />
