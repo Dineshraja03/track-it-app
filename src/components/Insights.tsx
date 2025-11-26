@@ -1,10 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useTransactions } from '@/hooks/useTransactions';
-import { getCategoryById } from '@/data/categories';
+import { useCategories } from '@/hooks/useCategories';
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
 
 const Insights = () => {
   const { transactions, getCategoryTotals } = useTransactions();
+  const { getCategoryById } = useCategories();
 
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-IN', {

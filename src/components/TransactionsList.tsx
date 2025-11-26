@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { useTransactions } from '@/hooks/useTransactions';
-import { getCategoryById } from '@/data/categories';
+import { useCategories } from '@/hooks/useCategories';
 import { cn } from '@/lib/utils';
 import { Search } from 'lucide-react';
 import { Transaction } from '@/types/transaction';
@@ -16,6 +16,7 @@ const TransactionsList = () => {
   const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const { transactions } = useTransactions();
+  const { getCategoryById } = useCategories();
 
   const filteredTransactions = transactions.filter(transaction => {
     const matchesFilter = filter === 'all' || transaction.type === filter;
